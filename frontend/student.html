@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard - SCMS</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-brand">🎓 SCMS</div>
+      <div class="nav-menu">
+        <a href="student.html" class="nav-link active">Dashboard</a>
+        <button id="logoutBtn" class="btn btn-danger">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>Welcome, <span id="studentName">Student</span>!</h1>
+        <p class="subtitle">Student Dashboard</p>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <h2>Quick Actions</h2>
+        <div class="action-buttons">
+          <button id="markPresentBtn" class="btn btn-success">✓ Mark Myself Present</button>
+        </div>
+        <div id="attendanceMessage" class="message" style="display: none;"></div>
+      </div>
+
+      <!-- Attendance Statistics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Days</h3>
+          <p class="stat-number" id="totalDays">0</p>
+        </div>
+        <div class="stat-card stat-success">
+          <h3>Present</h3>
+          <p class="stat-number" id="presentDays">0</p>
+        </div>
+        <div class="stat-card stat-danger">
+          <h3>Absent</h3>
+          <p class="stat-number" id="absentDays">0</p>
+        </div>
+        <div class="stat-card stat-info">
+          <h3>Attendance %</h3>
+          <p class="stat-number" id="attendancePercentage">0%</p>
+        </div>
+      </div>
+
+      <!-- Attendance History -->
+      <div class="card">
+        <h2>My Attendance History</h2>
+        <div id="attendanceHistory">
+          <p>Loading attendance data...</p>
+        </div>
+      </div>
+
+      <!-- Available Resources -->
+      <div class="card">
+        <h2>Available Resources</h2>
+        <div class="resources-list">
+          <div class="resource-item">
+            <span class="resource-icon">📽️</span>
+            <div class="resource-info">
+              <h4>Projector</h4>
+              <p>Available for classroom presentations</p>
+            </div>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">💻</span>
+            <div class="resource-info">
+              <h4>Computer Lab</h4>
+              <p>20 computers with internet access</p>
+            </div>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">🔬</span>
+            <div class="resource-info">
+              <h4>Science Lab</h4>
+              <p>Fully equipped physics, chemistry, biology lab</p>
+            </div>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">📚</span>
+            <div class="resource-info">
+              <h4>Library</h4>
+              <p>Books, journals, and study materials</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/student.js"></script>
+  </body>
+</html>

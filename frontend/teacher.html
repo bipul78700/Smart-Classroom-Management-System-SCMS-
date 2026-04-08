@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard - SCMS</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-brand">🎓 SCMS</div>
+      <div class="nav-menu">
+        <a href="teacher.html" class="nav-link active">Dashboard</a>
+        <button id="logoutBtn" class="btn btn-danger">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>Welcome, <span id="teacherName">Teacher</span>!</h1>
+        <p class="subtitle">Teacher Dashboard</p>
+      </div>
+
+      <!-- Attendance Summary -->
+      <div class="stats-grid">
+        <div class="stat-card stat-success">
+          <h3>Present Today</h3>
+          <p class="stat-number" id="presentToday">0</p>
+        </div>
+        <div class="stat-card stat-danger">
+          <h3>Absent Today</h3>
+          <p class="stat-number" id="absentToday">0</p>
+        </div>
+        <div class="stat-card stat-info">
+          <h3>Attendance Rate</h3>
+          <p class="stat-number" id="attendanceRate">0%</p>
+        </div>
+        <div class="stat-card">
+          <h3>Total Students</h3>
+          <p class="stat-number" id="totalStudents">0</p>
+        </div>
+      </div>
+
+      <!-- Mark Attendance Section -->
+      <div class="card">
+        <h2>Mark Attendance</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentSelect">Select Student</label>
+            <select id="studentSelect" required>
+              <option value="">-- Select Student --</option>
+              <option value="student1|John Doe">John Doe (student1)</option>
+              <option value="student2|Jane Smith">Jane Smith (student2)</option>
+              <option value="student3|Mike Johnson">Mike Johnson (student3)</option>
+              <option value="student4|Sarah Williams">Sarah Williams (student4)</option>
+              <option value="student5|David Brown">David Brown (student5)</option>
+            </select>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button id="markPresentBtn" class="btn btn-success">✓ Present</button>
+          <button id="markAbsentBtn" class="btn btn-danger">✗ Absent</button>
+        </div>
+        <div id="attendanceMessage" class="message" style="display: none;"></div>
+      </div>
+
+      <!-- Today's Attendance -->
+      <div class="card">
+        <h2>Today's Attendance</h2>
+        <div id="todayAttendance">
+          <p>Loading attendance data...</p>
+        </div>
+      </div>
+
+      <!-- Book Resource Section -->
+      <div class="card">
+        <h2>Book Classroom Resource</h2>
+        <form id="bookingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="resourceName">Resource</label>
+              <select id="resourceName" required>
+                <option value="">-- Select Resource --</option>
+                <option value="Projector">Projector</option>
+                <option value="Computer Lab">Computer Lab</option>
+                <option value="Science Lab">Science Lab</option>
+                <option value="Smart Board">Smart Board</option>
+                <option value="Audio System">Audio System</option>
+                <option value="Library">Library</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="timeSlot">Time Slot</label>
+              <select id="timeSlot" required>
+                <option value="">-- Select Time --</option>
+                <option value="09:00-10:00">09:00 - 10:00</option>
+                <option value="10:00-11:00">10:00 - 11:00</option>
+                <option value="11:00-12:00">11:00 - 12:00</option>
+                <option value="12:00-13:00">12:00 - 13:00</option>
+                <option value="13:00-14:00">13:00 - 14:00</option>
+                <option value="14:00-15:00">14:00 - 15:00</option>
+                <option value="15:00-16:00">15:00 - 16:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bookingDate">Date</label>
+              <input type="date" id="bookingDate" required />
+            </div>
+            <div class="form-group">
+              <label for="bookingPurpose">Purpose</label>
+              <input type="text" id="bookingPurpose" placeholder="e.g., Physics Lab Session" required />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Book Resource</button>
+        </form>
+        <div id="bookingMessage" class="message" style="display: none;"></div>
+      </div>
+
+      <!-- Resource Bookings -->
+      <div class="card">
+        <h2>My Resource Bookings</h2>
+        <div id="bookingsList">
+          <p>Loading bookings...</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/teacher.js"></script>
+  </body>
+</html>

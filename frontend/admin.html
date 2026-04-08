@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - SCMS</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-brand">🎓 SCMS</div>
+      <div class="nav-menu">
+        <a href="admin.html" class="nav-link active">Dashboard</a>
+        <button id="logoutBtn" class="btn btn-danger">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>Welcome, <span id="adminName">Admin</span>!</h1>
+        <p class="subtitle">Admin Dashboard</p>
+      </div>
+
+      <!-- Statistics Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Users</h3>
+          <p class="stat-number" id="totalUsers">0</p>
+        </div>
+        <div class="stat-card stat-success">
+          <h3>Total Students</h3>
+          <p class="stat-number" id="totalStudents">0</p>
+        </div>
+        <div class="stat-card stat-info">
+          <h3>Teachers</h3>
+          <p class="stat-number" id="totalTeachers">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Total Bookings</h3>
+          <p class="stat-number" id="totalBookings">0</p>
+        </div>
+      </div>
+
+      <!-- Attendance Overview -->
+      <div class="stats-grid">
+        <div class="stat-card stat-success">
+          <h3>Present Today</h3>
+          <p class="stat-number" id="presentToday">0</p>
+        </div>
+        <div class="stat-card stat-danger">
+          <h3>Absent Today</h3>
+          <p class="stat-number" id="absentToday">0</p>
+        </div>
+        <div class="stat-card stat-info">
+          <h3>Attendance Rate</h3>
+          <p class="stat-number" id="attendanceRate">0%</p>
+        </div>
+      </div>
+
+      <!-- Users List -->
+      <div class="card">
+        <h2>All Users</h2>
+        <div id="usersList">
+          <p>Loading users...</p>
+        </div>
+      </div>
+
+      <!-- Today's Attendance -->
+      <div class="card">
+        <h2>Today's Attendance Overview</h2>
+        <div id="todayAttendance">
+          <p>Loading attendance data...</p>
+        </div>
+      </div>
+
+      <!-- All Resource Bookings -->
+      <div class="card">
+        <h2>All Resource Bookings</h2>
+        <div id="allBookings">
+          <p>Loading bookings...</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>
