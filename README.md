@@ -191,16 +191,16 @@ After seeding the database, use these credentials to login:
 - **Role**: Select "Admin" from dropdown
 
 ### Teacher Login
-- **Username**: `teacher1`
+- **Username**: `teacher1`, `teacher2`, `teacher3`, or `teacher4`
 - **Password**: `teacher123`
 - **Role**: Select "Teacher" from dropdown
 
 ### Student Login
-- **Username**: `student1`
+- **Username**: `student1` through `student10`
 - **Password**: `student123`
 - **Role**: Select "Student" from dropdown
 
-**Additional test users**: `teacher2`, `student2`, `student3`, `student4`, `student5` (all with password: `teacher123` or `student123`)
+**Note:** You can also register a new Student or Teacher directly from the Login page!
 
 ## 📖 Usage Guide
 

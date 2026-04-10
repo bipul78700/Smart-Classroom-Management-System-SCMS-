@@ -23,8 +23,15 @@ const bookingForm = document.getElementById('bookingForm');
 const bookingMessage = document.getElementById('bookingMessage');
 const logoutBtn = document.getElementById('logoutBtn');
 
+// Material DOM Elements
+const announcementForm = document.getElementById('announcementForm');
+const uploadMaterialForm = document.getElementById('uploadMaterialForm');
+const annMessage = document.getElementById('annMessage');
+const uploadMessage = document.getElementById('uploadMessage');
+
 // Load data on page load
 window.addEventListener('DOMContentLoaded', () => {
+    loadStudents();
     loadAttendanceSummary();
     loadTodayAttendance();
     loadBookings();
@@ -39,6 +46,10 @@ bookingForm.addEventListener('submit', bookResource);
 
 // Logout button handler
 logoutBtn.addEventListener('click', logout);
+
+// Material form handlers
+if (announcementForm) announcementForm.addEventListener('submit', postAnnouncement);
+if (uploadMaterialForm) uploadMaterialForm.addEventListener('submit', uploadMaterial);
 
 // Function to mark attendance for a student
 async function markAttendance(status) {
@@ -282,4 +293,116 @@ function showBookingMessage(message, type) {
 function logout() {
     localStorage.removeItem('user');
     window.location.href = 'index.html';
+}
+
+// Function to post announcement
+async function postAnnouncement(e) {
+    e.preventDefault();
+    const title = document.getElementById('annTitle').value.trim();
+    const content = document.getElementById('annContent').value.trim();
+
+    if (!title || !content) {
+        showCustomMessage(annMessage, 'Please fill in all fields', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/materials/announcement`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                title, 
+                content, 
+                teacherName: user.fullName, 
+                teacherId: user.id 
+            })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showCustomMessage(annMessage, 'Announcement posted successfully!', 'success');
+            announcementForm.reset();
+        } else {
+            showCustomMessage(annMessage, data.message || 'Failed to post announcement', 'error');
+        }
+    } catch (error) {
+        console.error('Announcement error:', error);
+        showCustomMessage(annMessage, 'Server error. Please try again.', 'error');
+    }
+}
+
+// Function to upload material (PDF/Image)
+async function uploadMaterial(e) {
+    e.preventDefault();
+    const title = document.getElementById('matTitle').value.trim();
+    const type = document.getElementById('matType').value;
+    const fileInput = document.getElementById('matFile');
+    const file = fileInput.files[0];
+
+    if (!title || !type || !file) {
+        showCustomMessage(uploadMessage, 'Please fill in all fields and select a file', 'error');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('type', type);
+    formData.append('teacherName', user.fullName);
+    if (user.id) formData.append('teacherId', user.id);
+    formData.append('file', file);
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/materials/upload`, {
+            method: 'POST',
+            body: formData // Note: no Content-Type header needed for FormData
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showCustomMessage(uploadMessage, 'Material uploaded successfully!', 'success');
+            uploadMaterialForm.reset();
+        } else {
+            showCustomMessage(uploadMessage, data.message || 'Failed to upload material', 'error');
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        showCustomMessage(uploadMessage, 'Server error. Please try again.', 'error');
+    }
+}
+
+// Helper generic message function
+function showCustomMessage(element, message, type) {
+    element.textContent = message;
+    element.className = `message message-${type}`;
+    element.style.display = 'block';
+    setTimeout(() => { element.style.display = 'none'; }, 3000);
+}
+
+// Function to dynamically load students into dropdown
+async function loadStudents() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/users`);
+        const data = await response.json();
+        
+        if (data.success && data.users) {
+            const select = document.getElementById('studentSelect');
+            
+            // Keep default option
+            select.innerHTML = '<option value="">-- Select Student --</option>';
+            
+            // Filter users to get only students and sort alphabetically
+            const students = data.users.filter(u => u.role === 'student')
+                                      .sort((a, b) => a.fullName.localeCompare(b.fullName));
+            
+            students.forEach(student => {
+                const option = document.createElement('option');
+                // Format matches existing structure: studentId|studentName -> username|fullName
+                option.value = `${student.username}|${student.fullName}`;
+                option.textContent = `${student.fullName} (${student.username})`;
+                select.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading students:', error);
+    }
 }

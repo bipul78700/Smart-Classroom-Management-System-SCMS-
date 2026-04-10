@@ -64,6 +64,20 @@ async function seedDatabase() {
                 fullName: 'Prof. Michael Chen',
                 email: 'michael.chen@scms.com'
             },
+            {
+                username: 'teacher3',
+                password: hashedTeacherPassword,
+                role: 'teacher',
+                fullName: 'Dr. Emily White',
+                email: 'emily.white@scms.com'
+            },
+            {
+                username: 'teacher4',
+                password: hashedTeacherPassword,
+                role: 'teacher',
+                fullName: 'Mr. Robert Davis',
+                email: 'robert.davis@scms.com'
+            },
             // Student users
             {
                 username: 'student1',
@@ -99,6 +113,41 @@ async function seedDatabase() {
                 role: 'student',
                 fullName: 'David Brown',
                 email: 'david.brown@scms.com'
+            },
+            {
+                username: 'student6',
+                password: hashedStudentPassword,
+                role: 'student',
+                fullName: 'Olivia Taylor',
+                email: 'olivia.taylor@scms.com'
+            },
+            {
+                username: 'student7',
+                password: hashedStudentPassword,
+                role: 'student',
+                fullName: 'James Anderson',
+                email: 'james.anderson@scms.com'
+            },
+            {
+                username: 'student8',
+                password: hashedStudentPassword,
+                role: 'student',
+                fullName: 'Sophia Martinez',
+                email: 'sophia.martinez@scms.com'
+            },
+            {
+                username: 'student9',
+                password: hashedStudentPassword,
+                role: 'student',
+                fullName: 'Daniel Wilson',
+                email: 'daniel.wilson@scms.com'
+            },
+            {
+                username: 'student10',
+                password: hashedStudentPassword,
+                role: 'student',
+                fullName: 'Emma Thomas',
+                email: 'emma.thomas@scms.com'
             }
         ]);
 

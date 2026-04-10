@@ -16,8 +16,13 @@ const markPresentBtn = document.getElementById('markPresentBtn');
 const attendanceMessage = document.getElementById('attendanceMessage');
 const logoutBtn = document.getElementById('logoutBtn');
 
-// Load attendance data on page load
-window.addEventListener('DOMContentLoaded', loadAttendanceData);
+// Load initial data on page load
+window.addEventListener('DOMContentLoaded', () => {
+    loadAttendanceData();
+    loadAnnouncements();
+    loadMaterials();
+    loadStudentBookings();
+});
 
 // Mark attendance button click handler
 markPresentBtn.addEventListener('click', markMyselfPresent);
@@ -154,4 +159,112 @@ function showMessage(message, type) {
 function logout() {
     localStorage.removeItem('user');
     window.location.href = 'index.html';
+}
+
+// Function to load announcements
+async function loadAnnouncements() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/materials?type=announcement`);
+        const data = await response.json();
+        const container = document.getElementById('announcementsList');
+
+        if (data.success && data.materials && data.materials.length > 0) {
+            let html = '';
+            data.materials.forEach(ann => {
+                const date = new Date(ann.createdAt).toLocaleDateString();
+                html += `
+                    <div style="padding: 10px; border-left: 4px solid #007bff; background: #f8f9fa;">
+                        <h4 style="margin: 0; color: #007bff;">${ann.title}</h4>
+                        <p style="margin: 5px 0;">${ann.content}</p>
+                        <small style="color: #666;">Posted by ${ann.teacherName} on ${date}</small>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = '<p>No announcements found.</p>';
+        }
+    } catch (error) {
+        console.error('Announcements error:', error);
+        document.getElementById('announcementsList').innerHTML = '<p>Error loading announcements.</p>';
+    }
+}
+
+// Function to load notes and images
+async function loadMaterials() {
+    try {
+        // Fetch all materials, we will filter locally for note/image if backend didn't
+        const response = await fetch(`${API_BASE_URL}/materials`);
+        const data = await response.json();
+        const container = document.getElementById('materialsList');
+
+        if (data.success && data.materials) {
+            const files = data.materials.filter(m => m.type === 'note' || m.type === 'image');
+            if (files.length > 0) {
+                let html = '';
+                files.forEach(file => {
+                    const icon = file.type === 'note' ? '📄' : '🖼️';
+                    html += `
+                        <div style="border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #fff;">
+                            <div style="font-size: 24px; margin-bottom: 5px;">${icon}</div>
+                            <h4 style="margin: 0 0 5px 0;">${file.title}</h4>
+                            <p style="margin: 0 0 10px 0; font-size: 0.9em; color: #666;">From: ${file.teacherName}</p>
+                            <a href="http://localhost:3000${file.fileUrl}" target="_blank" class="btn btn-primary" style="display: inline-block; text-align: center; text-decoration: none; font-size: 0.8em; padding: 5px 10px;">Open ${file.type}</a>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p>No notes or materials available.</p>';
+            }
+        } else {
+            container.innerHTML = '<p>No materials found.</p>';
+        }
+    } catch (error) {
+        console.error('Materials error:', error);
+        document.getElementById('materialsList').innerHTML = '<p>Error loading materials.</p>';
+    }
+}
+
+// Function to load active bookings
+async function loadStudentBookings() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/bookings`);
+        const data = await response.json();
+        const container = document.getElementById('studentBookingsList');
+
+        if (data.success && data.bookings && data.bookings.length > 0) {
+            let tableHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Resource</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            data.bookings.forEach(booking => {
+                const date = new Date(booking.date).toLocaleDateString();
+                const statusClass = booking.status === 'confirmed' ? 'status-present' : 'status-absent';
+                tableHTML += `
+                    <tr>
+                        <td>${booking.resourceName}</td>
+                        <td>${date}</td>
+                        <td>${booking.timeSlot}</td>
+                        <td><span class="${statusClass}">${booking.status}</span></td>
+                    </tr>
+                `;
+            });
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+        } else {
+            container.innerHTML = '<p>No active bookings available.</p>';
+        }
+    } catch (error) {
+        console.error('Bookings error:', error);
+        document.getElementById('studentBookingsList').innerHTML = '<p>Error loading bookings.</p>';
+    }
 }

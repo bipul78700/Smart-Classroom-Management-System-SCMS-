@@ -51,11 +51,6 @@
             <label for="studentSelect">Select Student</label>
             <select id="studentSelect" required>
               <option value="">-- Select Student --</option>
-              <option value="student1|John Doe">John Doe (student1)</option>
-              <option value="student2|Jane Smith">Jane Smith (student2)</option>
-              <option value="student3|Mike Johnson">Mike Johnson (student3)</option>
-              <option value="student4|Sarah Williams">Sarah Williams (student4)</option>
-              <option value="student5|David Brown">David Brown (student5)</option>
             </select>
           </div>
         </div>
@@ -118,6 +113,50 @@
           <button type="submit" class="btn btn-primary">Book Resource</button>
         </form>
         <div id="bookingMessage" class="message" style="display: none;"></div>
+      </div>
+
+      <!-- Share Materials & Announcements -->
+      <div class="card">
+        <h2>Share Materials & Announcements</h2>
+        
+        <!-- Post Announcement -->
+        <form id="announcementForm" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #ddd;">
+          <h3>Post Announcement</h3>
+          <div class="form-group">
+            <label for="annTitle">Title</label>
+            <input type="text" id="annTitle" placeholder="e.g., Important exam update" required />
+          </div>
+          <div class="form-group">
+            <label for="annContent">Message</label>
+            <textarea id="annContent" rows="3" placeholder="Enter your announcement here..." required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Post Announcement</button>
+          <div id="annMessage" class="message" style="display: none; margin-top: 10px;"></div>
+        </form>
+
+        <!-- Upload Material -->
+        <form id="uploadMaterialForm">
+          <h3>Upload Notes / Images</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="matTitle">Title</label>
+              <input type="text" id="matTitle" placeholder="e.g., Chapter 1 Physics Notes" required />
+            </div>
+            <div class="form-group">
+              <label for="matType">Material Type</label>
+              <select id="matType" required>
+                <option value="note">PDF Note</option>
+                <option value="image">Image</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="matFile">Select File (PDF/Image)</label>
+            <input type="file" id="matFile" accept=".pdf,image/*" required style="padding: 10px 0;" />
+          </div>
+          <button type="submit" class="btn btn-success">Upload Material</button>
+          <div id="uploadMessage" class="message" style="display: none; margin-top: 10px;"></div>
+        </form>
       </div>
 
       <!-- Resource Bookings -->

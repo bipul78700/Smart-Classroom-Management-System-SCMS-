@@ -25,11 +25,17 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/scms')
 const authRoutes = require('./routes/auth');
 const attendanceRoutes = require('./routes/attendance');
 const bookingRoutes = require('./routes/booking');
+const materialsRoutes = require('./routes/materials');
+const path = require('path');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/materials', materialsRoutes);
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Root route - API status
 app.get('/api', (req, res) => {

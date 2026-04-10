@@ -68,6 +68,74 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// POST /api/auth/register - Register a new user (Student or Teacher)
+router.post('/register', async (req, res) => {
+    try {
+        const { username, password, fullName, email, role } = req.body;
+
+        // Validate input
+        if (!username || !password || !fullName || !role) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide all required fields'
+            });
+        }
+
+        const lowerRole = role.toLowerCase();
+
+        // Check if role is valid for registration (prevent admin registration here)
+        if (lowerRole !== 'student' && lowerRole !== 'teacher') {
+            return res.status(400).json({
+                success: false,
+                message: 'Can only register as student or teacher via this portal'
+            });
+        }
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ username: username.toLowerCase() });
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: 'Username is already taken'
+            });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create new user
+        const newUser = new User({
+            username: username.toLowerCase(),
+            password: hashedPassword,
+            fullName,
+            email,
+            role: lowerRole
+        });
+
+        await newUser.save();
+
+        res.status(201).json({
+            success: true,
+            message: 'Registration successful! You can now log in.',
+            user: {
+                id: newUser._id,
+                username: newUser.username,
+                fullName: newUser.fullName,
+                role: newUser.role,
+                email: newUser.email
+            }
+        });
+
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during registration'
+        });
+    }
+});
+
 // GET /api/auth/users - Get all users (for admin purposes)
 router.get('/users', async (req, res) => {
     try {
